@@ -86,7 +86,7 @@ Dann bekommt jeder Thread genau ein Label aus `KONFIG.md`, anhand der Beschreibu
 
 **Priorität** hoch, mittel oder niedrig nach den Prioritätsregeln in `KONFIG.md` (eigene Regeln vor Standard). Für jeden Thread mit Priorität hoch einen Satz notieren, was den Ausschlag gegeben hat.
 
-**Chance**, wenn die Markierung aktiv ist und die Beschreibung aus `KONFIG.md` zutrifft. Für jede Chance einen Halbsatz notieren, warum (etwa „Firma will Stand am Career Day"). Rechnungen, die wir bezahlen sollen, sind keine Chance. Nie bei Sonstiges.
+**Chance**, wenn die Markierung aktiv ist und die Beschreibung aus `KONFIG.md` zutrifft. Für jede Chance einen Halbsatz notieren, warum (etwa „Marke fragt nach Creator-Kampagne"). Rechnungen, die wir bezahlen sollen, sind keine Chance. Nie bei Sonstiges.
 
 **Beleg.** Rechnungen und Belege bekommen im Digest den Zusatz „Beleg", egal unter welchem Label, damit sie später gesammelt abgelegt werden können. In dieser Fassung wird nichts abgelegt oder heruntergeladen.
 
