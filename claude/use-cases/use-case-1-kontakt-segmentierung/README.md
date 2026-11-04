@@ -30,7 +30,7 @@ Diese Sätze solltest du kennen:
 
 ## Das Gesamtbild
 
-Dieses Bundle deckt die ersten drei Agenten deiner Sales-Pipeline ab: den Lead-Scout (Phase A, Export sortieren und mit bisherigen Kunden abgleichen), den Rechercheur (Phasen C und D, Akten je Marke und parallele Recherche in öffentlichen Quellen) und den Texter (Phasen B, E und F, Anlass, Ansprache und Entwürfe in Batches). Agent 4, der Antwort-Radar, ist das Bundle `posteingang-triage`. Agent 5, der Termin-Vorbereiter (Briefing vor dem Erstgespräch, Creator-Vorschlag, Meeting ins Second Brain), baust du später selbst mit `skill-creator` auf Basis der Routinen `briefing` und Fathom-Sync. An jedem Freigabe-Tor entscheidest du, das ist dein Kontroll-Agent.
+In diesem Bundle stecken drei Skills, die du einzeln aufrufen kannst: der **Lead-Scout** (Phase A: Export sortieren, Bestandskunden abgleichen, Excel), der **Firmen-Check** (Phasen C und D: je Firma eine Seite mit Sport-Engagement, Creator-Kampagnen und Anknüpfungspunkt, parallel über Subagenten) und die **Erstansprache** (Phasen B, E und F: Anlass, Ansprache-Tabelle, Entwürfe in Zehnerbatches). Das **Postfach-Radar** ist das Bundle `posteingang-triage`. An jedem Freigabe-Tor entscheidest du.
 
 ## Grenzen
 
