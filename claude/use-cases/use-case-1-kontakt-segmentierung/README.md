@@ -28,6 +28,10 @@ Diese Sätze solltest du kennen:
 - „Nr. 3 und 5 habe ich abgeschickt.“ meldest du, sobald du Nachrichten selbst versendet hast, damit die Akten den richtigen Stand zeigen.
 - „Mach mit dem Outreach weiter.“ sagst du in einer neuen Session, dann nennt Claude den Stand und den nächsten Schritt.
 
+## Das Gesamtbild
+
+Dieses Bundle deckt die ersten drei Agenten deiner Sales-Pipeline ab: den Lead-Scout (Phase A, Export sortieren und mit bisherigen Kunden abgleichen), den Rechercheur (Phasen C und D, Akten je Marke und parallele Recherche in öffentlichen Quellen) und den Texter (Phasen B, E und F, Anlass, Ansprache und Entwürfe in Batches). Agent 4, der Antwort-Radar, ist das Bundle `posteingang-triage`. Agent 5, der Termin-Vorbereiter (Briefing vor dem Erstgespräch, Creator-Vorschlag, Meeting ins Second Brain), baust du später selbst mit `skill-creator` auf Basis der Routinen `briefing` und Fathom-Sync. An jedem Freigabe-Tor entscheidest du, das ist dein Kontroll-Agent.
+
 ## Grenzen
 
 - Claude ordnet nach der Positionsbezeichnung, lies die A-Kontakte einmal gegen.

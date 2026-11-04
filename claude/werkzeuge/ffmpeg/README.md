@@ -1,6 +1,6 @@
 # ffmpeg: Videos und Ton verarbeiten
 
-ffmpeg ist ein kleines, kostenloses Programm, mit dem Claude Videos und Tonspuren zuschneiden, umwandeln und prüfen kann. Video-Use-Cases, die du später ergänzst, brauchen es zwingend.
+ffmpeg ist ein kleines, kostenloses Programm, mit dem Claude Videos und Tonspuren zuschneiden, umwandeln und prüfen kann. Das Bundle `use-case-3-motion-graphic` (kurze animierte Videos für Social Media) braucht es zwingend.
 
 Steht hier **Sag Claude**, kopierst du den grauen Kasten in den Chat.
 

@@ -6,7 +6,7 @@ Ein Werkzeug ist ein Programm oder eine Anbindung, die Claude neue Fähigkeiten 
 
 - `codex`: holt OpenAI Codex als zweiten Coding-Agenten dazu, für Zweitmeinungen, Aufgaben im Projekt und Bilder, angemeldet über dein ChatGPT-Konto.
 - `google-workspace-cli`: lässt Claude direkt in Gmail, Kalender, Drive, Docs und Sheets arbeiten.
-- `ffmpeg`: verarbeitet Videos und Ton, nützlich für Video-Use-Cases, die du später ergänzen kannst.
+- `ffmpeg`: verarbeitet Videos und Ton, Voraussetzung für das Bundle `use-case-3-motion-graphic` (kurze animierte Videos) und nützlich bei jeder anderen Arbeit mit Videos.
 
 ## So installierst du ein Werkzeug
 
