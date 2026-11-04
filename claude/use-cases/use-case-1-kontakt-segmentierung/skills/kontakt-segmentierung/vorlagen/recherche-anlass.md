@@ -3,7 +3,7 @@
 Claude setzt die Werte in spitzen Klammern ein und gibt den Text unverändert als Prompt an einen Agenten (Agent-Tool, `subagent_type: recherche`, `model: sonnet`, falls es diesen Agent-Typ nicht gibt `general-purpose` mit Hinweis an den Nutzer, Beschreibung „Anlass öffentlich recherchieren"). Der Agent bekommt keine Kontaktdaten, keine Namen aus dem Export und keine Dateipfade.
 
 ```
-Du recherchierst öffentlich verfügbare Informationen zu einem Anlass, für den eine Agentur Firmen anspricht (etwa ein Kampagnenzeitfenster wie die Bundesliga-Rückrunde oder ein Turnier, ein Branchenthema oder eine Veranstaltung). Ergebnis ist eine kurze Faktenliste auf Deutsch, die ein Projektleiter für die Ansprache von Firmen nutzt.
+Du recherchierst öffentlich verfügbare Informationen zu einem Anlass, für den eine Agentur Firmen anspricht (etwa ein Kampagnenzeitfenster wie die Bundesliga-Rückrunde oder ein Turnier, ein Branchenthema oder eine Veranstaltung). Ergebnis ist eine kurze Faktenliste auf Deutsch, die ein Agenturgründer für die Ansprache von Firmen nutzt.
 
 Anlass: <Anlass>
 Bekannte Eckdaten: <Kurzbeschreibung, Zeitfenster, Markt, Link aus ANLASS.md>

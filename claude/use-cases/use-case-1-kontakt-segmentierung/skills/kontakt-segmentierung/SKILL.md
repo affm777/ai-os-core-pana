@@ -9,7 +9,7 @@ allowed-tools: Read, Write, Edit, Glob, Bash, AskUserQuestion, Agent, ToolSearch
 
 # Outreach-Pipeline: von der Kontaktliste zum Entwurf
 
-Der Nutzer ist Projektleiter ohne Technik-Hintergrund. Er sieht nie JSON oder Code, nur Rückfragen, Tabellen im Chat und fertige Dateien. Die Pipeline hat sechs Phasen. Jede endet mit einem Ergebnis, das für sich nützlich ist, der Nutzer kann nach jeder Phase aufhören.
+Der Nutzer ist Agenturgründer ohne Technik-Hintergrund. Er sieht nie JSON oder Code, nur Rückfragen, Tabellen im Chat und fertige Dateien. Die Pipeline hat sechs Phasen. Jede endet mit einem Ergebnis, das für sich nützlich ist, der Nutzer kann nach jeder Phase aufhören.
 
 | Phase | Ergebnis | Braucht |
 |---|---|---|
@@ -72,7 +72,7 @@ Hat der Nutzer keinen Pfad genannt, fragen:
 
 > Wo liegt dein LinkedIn-Export? Zieh die Datei Connections.csv (oder deine Excel-Liste) einfach hier ins Fenster, dann habe ich den Pfad. Für eine Probe mit erfundenen Kontakten sag „Demo".
 
-- „Demo" heißt `$S/beispiel/Connections-beispiel.csv`. Im Chat einmal sagen, dass alle Namen und Firmen erfunden sind.
+- „Demo" heißt `$S/beispiel/Connections-beispiel.csv`. Im Chat einmal sagen, dass alle Namen und Firmen erfunden sind. In der Demo wird Phase D übersprungen (erfundene Firmen haben keine öffentlichen Quellen), stattdessen `$S/beispiel/firmenakte-beispiel.md` als recherchierte Beispielakte zeigen, damit E und F mit einem geprüften Fakt arbeiten.
 - Hat er noch keinen Export, kurz erklären: LinkedIn, Profilbild (Ich), Einstellungen und Datenschutz, Datenschutz, „Kopie Ihrer Daten abrufen", nur „Verbindungen" anhaken, Archiv anfordern. LinkedIn schickt den Link meist innerhalb von 10 Minuten bis 24 Stunden per Mail. In der ZIP-Datei liegt `Connections.csv`. Dann stoppen.
 - Bei einer Excel-Datei nimmt das Skript das erste Blatt mit erkennbarer Kopfzeile und nennt es (`blatt`). Ist das falsch, mit `--blatt <name>` erneut einlesen.
 - Andere Exporte als LinkedIn (Phantombuster, Evaboot, Wiza, Event- und Messelisten) erkennt das Skript über den Spaltenkatalog. Beispiele liegen in `$S/beispiel/formate/`.
@@ -150,7 +150,7 @@ Je Segment, das mindestens einen Kontakt hat, eine LinkedIn-Nachricht schreiben 
 
 Die Bausteine sind ein Zwischenergebnis für alle, die nach Phase A aufhören. Sie folgen denselben sieben Prinzipien wie die Entwürfe in Phase F (`$S/vorlagen/ansprache.md`, vorher lesen), nur ohne Firmenteil, weil es noch keine Akten gibt. Die erste Zeile kommt aus dem, woran das Segment gemessen wird (Spalte „Woran die Person gemessen wird" in der Segment-Tabelle dort). Weitere Regeln:
 
-- 350 bis 600 Zeichen, drei bis vier Absätze mit Leerzeile, keine Emojis, keine Hashtags, keine Gedankenstriche. Keine Floskeln, keine Werbesprache.
+- 350 bis 650 Zeichen, drei bis vier Absätze mit Leerzeile, keine Emojis, keine Hashtags, keine Gedankenstriche. Keine Floskeln, keine Werbesprache.
 - Herkunft („wir sind hier auf LinkedIn vernetzt") beiläufig in einem Nebensatz. Genau eine Frage auf Augenhöhe nach der Segment-Tabelle, nicht „Darf ich Infos schicken?". Lockerer Schluss ohne Entschuldigung. Keine Preise, kein Anhang.
 - Anlass nur so beschreiben, wie der Nutzer es gesagt hat (oder wie es in ANLASS.md steht), die Agentur sonst nur als Sport-Creator-Marketing-Agentur mit Schwerpunkt Fußball. Zeitfenster, Markt, Link, Preise, Budgets und Zahlen (Creator-Netzwerk, Reichweite) nur aus Schritt A3 oder ANLASS.md, sonst `[FEHLT: Zeitfenster]` usw.
 - Platzhalter `[Vorname]`, `[Nachname]`, `[Firma]` für das spätere Einsetzen von Hand.
@@ -171,7 +171,7 @@ Meldet das Skript fehlende oder fehlerhafte Zuordnungen, still nachbessern und e
 4. Je Segment den Textbaustein in einem Codeblock.
 5. Bei Partnerliste die Tabelle „Bisherige Partner" (Firma, bisher, Kontakte, davon A) und die Firmen ohne Kontakt im Export.
 
-Darunter fragen, ob so geschrieben werden soll oder ob etwas geändert werden soll („Nr. 12 ist Sonstiges", „Firma X ganz raus", „Baustein HR kürzer"). Änderungen in den JSON-Dateien oder in der Ausschlussliste einarbeiten und die Vorschau erneut zeigen. Erst nach ausdrücklichem Okay weiter.
+Darunter fragen, ob so geschrieben werden soll oder ob etwas geändert werden soll („Nr. 12 ist Sonstiges", „Firma X ganz raus", „Baustein Geschäftsführung kürzer"). Änderungen in den JSON-Dateien oder in der Ausschlussliste einarbeiten und die Vorschau erneut zeigen. Erst nach ausdrücklichem Okay weiter.
 
 ### A7. Schreiben
 
@@ -206,6 +206,8 @@ Das Skript nimmt den neuesten fertigen Ordner unter `kontakte/arbeit/` (anderer 
 Im Chat zeigen: Zahl neuer und ergänzter Akten, Tabelle Firma, Firmenpriorität, Zahl der Kontakte (A-Firmen zuerst, höchstens 20 Zeilen), dazu `hinweise` aus der Ausgabe in Alltagssprache. Soll eine Firma nicht weiter verfolgt werden, `akten.py status --firma <slug> --wert gestrichen` setzen, die Akte bleibt liegen. Kontakte nicht aus Akten löschen, sie kämen beim nächsten Lauf wieder. Einzelne Kontakte werden in Phase E auf gestrichen gesetzt.
 
 ## Phase D: Firmen recherchieren in Batches
+
+In der Demo entfällt diese Phase (siehe A1), weiter mit Phase E anhand der Beispielakte.
 
 Ergebnis: in jeder bearbeiteten Akte gefüllte Stammdaten, Abschnitte Recherche und Anknüpfungspunkte, je Fakt mit Quelle und Datum, Status recherchiert.
 
@@ -261,7 +263,7 @@ Aus `$S/vorlagen/struktur.md` die Datei STRUKTUR.md befüllen (Einstellungen aus
 PY "$S/scripts/akten.py" ansprache
 ```
 
-Das Skript legt `ansprache.md` an oder hängt neue Kontakte an, bestehende Zeilen bleiben. Kanal ist immer LinkedIn. Die Spalte „E-Mail möglich" sagt nur, ob der Export eine Adresse enthält. Dann füllt Claude die Spalte Kontext per Edit: der stärkste geprüfte Fakt der Akte als Halbsatz plus das, woran die Person gemessen wird (etwa „WM-Kampagne mit zwei Creatorn, misst sich an Reichweite in der jungen Zielgruppe"), ohne Akte mit Recherche „ohne Recherche, Einstieg über die Rolle". Tabelle im Chat zeigen (A-Kontakte zuerst, bei mehr als 25 Zeilen die ersten 25 und die Gesamtzahl) und sagen:
+Das Skript legt `ansprache.md` an oder hängt neue Kontakte an, bestehende Zeilen bleiben. Kanal ist immer LinkedIn. Die Spalte „E-Mail möglich" sagt nur, ob der Export eine Adresse enthält. Dann füllt Claude die Spalte Kontext per Edit: der stärkste geprüfte Fakt der Akte als Halbsatz plus das, woran die Person gemessen wird (etwa „WM-Kampagne mit zwei Creatorn, misst sich an Reichweite in der jungen Zielgruppe"), ohne Akte mit Recherche „ohne Recherche, Einstieg über die Rolle". Tabelle im Chat zeigen (nach Firma sortiert, A-Firmen zuerst, bei mehr als 25 Zeilen die ersten 25 und die Gesamtzahl) und sagen:
 
 > Prüf bitte den Kontext. Alle Nachrichten gehen über LinkedIn, weil ihr dort vernetzt seid. Eine LinkedIn-Verbindung ist keine Einwilligung für Werbung per Mail (§ 7 UWG). E-Mail geht nur bei Menschen, mit denen du schon geschäftlich zu tun hast oder die eingewilligt haben, und nur, wenn du das je Kontakt bestätigst.
 
@@ -304,7 +306,7 @@ Danach in drei Zeilen: wo die Texte liegen, wie viele Outlook-Entwürfe angelegt
 
 ### F5. Nach dem Versand durch den Nutzer
 
-Sagt der Nutzer „Nr. 3 und 5 habe ich abgeschickt", für beide `--wert angeschrieben` setzen. „X hat geantwortet" heißt `--wert geantwortet`. Die Akte rückt dabei automatisch vor, nie zurück. Erinnerungen, Nachfassen und das Zuordnen von Antworten aus dem Postfach gehören nicht zu diesem Skill.
+Sagt der Nutzer „Nr. 3 und 5 habe ich abgeschickt", für beide `--wert angeschrieben` setzen. „X hat geantwortet" heißt `--wert geantwortet`. Die Akte rückt dabei automatisch vor, nie zurück; der Kontaktstatus folgt dem letzten Befehl. Erinnerungen, Nachfassen und das Zuordnen von Antworten aus dem Postfach gehören nicht zu diesem Skill.
 
 ---
 
@@ -312,7 +314,7 @@ Sagt der Nutzer „Nr. 3 und 5 habe ich abgeschickt", für beide `--wert angesch
 
 - Änderungen gehen in `kontakte/ausschluss.md` und `kontakte/segmente.md` im Arbeitsordner (beim ersten Mal als Kopie aus `$S/` anlegen). Sie gelten dann nur für diesen Anlass. Nur wenn der Nutzer „für alle Anlässe" sagt, in `$S/`.
 - „Nimm Firma X in die Ausschlussliste" heißt eine Zeile `- X` unter `## Firmen` in der Ausschlussliste.
-- „Ausbildungsleitung soll Priorität A sein" oder neue Stichwörter heißen eine Änderung im passenden Abschnitt der Segmentregeln. Änderung einmal zeigen.
+- „Kommunikationsleitung soll Priorität A sein" oder neue Stichwörter heißen eine Änderung im passenden Abschnitt der Segmentregeln. Änderung einmal zeigen.
 - Ein neues Segment kommt als eigener Abschnitt `## Segment: <Name>` vor Sonstiges dazu. Dem Nutzer sagen, dass es ab dem nächsten Lauf als eigene Zeile in Excel erscheint.
 - Bei einer Neuinstallation des Bundles bleiben angepasste `segmente.md` und `ausschluss.md` erhalten.
 

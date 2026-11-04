@@ -6,6 +6,7 @@ So liest Claude die Regeln:
 
 - Grundlage ist nur die Positionsbezeichnung und die Firma aus deinem Export. Namen, Fotos oder vermutete Herkunft spielen für die Einordnung nie eine Rolle.
 - Die Stichwörter sind Beispiele, keine starre Liste. Claude erkennt auch Schreibweisen auf Deutsch und Englisch, die hier nicht stehen (etwa „Marketingleiterin", „Brand Communications Specialist", „Leitung Unternehmenskommunikation").
+- Vereine, Verbände, Ligen, Veranstalter und Agenturen gehen vorrangig nach Sonstiges B (Kooperationspartner), auch wenn die Position Marketing oder Sponsoring enthält.
 - Passt eine Position zu mehreren Segmenten, gilt diese Reihenfolge. Marketing und Brand geht vor Sponsoring und Partnerschaften, das vor Social Media und Content, das vor Geschäftsführung. Die Abschnitte unten stehen in genau dieser Reihenfolge, in der Excel-Datei auch.
 - Jede Person bekommt genau ein Segment, eine Priorität und eine kurze Begründung.
 
@@ -31,7 +32,7 @@ Stichwörter: sponsoring, sponsorship, sponsoring manager, head of sponsoring, s
 
 - A: Head of Sponsoring, Head of Partnerships, Leitung Sportmarketing, Sponsoring Manager mit Budgetverantwortung (sie entscheiden über Sportpräsenz und suchen Aktivierung für bestehende Sponsorings)
 - B: Partnership Manager, Kooperationsmanagement, Event Marketing, Aktivierung ohne Leitungsfunktion
-- C: Sponsoring auf der Nehmerseite (Vereine, Veranstalter, Sportlerinnen und Sportler, die selbst Sponsoren suchen) sowie Sponsoring-Vermittler und Rechteagenturen, wenn kein eigenes Markenbudget dahintersteht
+- C: Sportlerinnen und Sportler, die selbst Sponsoren suchen, sowie Sponsoring-Vermittler und Rechteagenturen ohne eigenes Markenbudget. Vereine, Verbände und Veranstalter gehören nach Sonstiges B (Kooperationspartner)
 
 ## Segment: Social Media und Content
 

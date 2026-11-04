@@ -30,7 +30,7 @@ Diese Sätze solltest du kennen:
 
 ## Das Gesamtbild
 
-In diesem Bundle stecken drei Skills, die du einzeln aufrufen kannst: der **Lead-Scout** (Phase A: Export sortieren, Bestandskunden abgleichen, Excel), der **Firmen-Check** (Phasen C und D: je Firma eine Seite mit Sport-Engagement, Creator-Kampagnen und Anknüpfungspunkt, parallel über Subagenten) und die **Erstansprache** (Phasen B, E und F: Anlass, Ansprache-Tabelle, Entwürfe in Zehnerbatches). Das **Postfach-Radar** ist das Bundle `posteingang-triage`. An jedem Freigabe-Tor entscheidest du.
+Der Skill hat sechs Phasen, die du einzeln aufrufen kannst. Gedanklich sind das drei Werkzeuge: der **Lead-Scout** (Phase A: Export sortieren, Bestandskunden abgleichen, Excel), der **Firmen-Check** (Phasen C und D: je Firma eine Seite mit Sport-Engagement, Creator-Kampagnen und Anknüpfungspunkt, parallel über Subagenten) und die **Erstansprache** (Phasen B, E und F: Anlass, Ansprache-Tabelle, Entwürfe in Zehnerbatches). Das **Postfach-Radar** ist das Bundle `posteingang-triage`. An jedem Freigabe-Tor entscheidest du.
 
 ## Grenzen
 

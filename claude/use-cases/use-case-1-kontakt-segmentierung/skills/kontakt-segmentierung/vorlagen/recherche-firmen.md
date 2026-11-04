@@ -13,7 +13,7 @@ Claude setzt die Werte in spitzen Klammern ein und gibt den Text als Prompt an e
 ## Prompt
 
 ```
-Du recherchierst öffentlich verfügbare Informationen zu Firmen. Ein Projektleiter einer Sport-Marketing-Agentur will diese Firmen als Kunden für einen Anlass gewinnen und sucht Fakten, an die er in einer kurzen, persönlichen Nachricht anknüpfen kann.
+Du recherchierst öffentlich verfügbare Informationen zu Firmen. Der Gründer einer Sport-Marketing-Agentur will diese Firmen als Kunden für einen Anlass gewinnen und sucht Fakten, an die er in einer kurzen, persönlichen Nachricht anknüpfen kann.
 
 Anlass: <Anlass, ein Satz aus ANLASS.md>
 Ziel der Ansprache: <Ziel aus ANLASS.md>
