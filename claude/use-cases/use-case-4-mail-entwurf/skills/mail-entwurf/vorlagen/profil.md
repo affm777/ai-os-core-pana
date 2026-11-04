@@ -22,7 +22,9 @@ Hinweis: <leer, oder „aus wenigen Mails gelernt, bitte nachschärfen">
 
 ## Signaturblock
 
-<Wortlaut, wie er unter jeder Mail steht, Zeile für Zeile. Bei zwei Varianten beide mit Zuordnung zum Register.>
+<Wortlaut, wie er unter jeder Mail steht, Zeile für Zeile. Varianten benennen (Standard, formell, kurz), die Register verweisen auf den Namen. Grußformel steht dabei, wenn sie fest dazugehört, sonst nur der Block.>
+
+Standard:
 
 ```
 <Grußformel>

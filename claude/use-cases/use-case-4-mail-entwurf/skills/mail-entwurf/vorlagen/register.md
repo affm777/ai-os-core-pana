@@ -15,11 +15,11 @@ Status: aktiv. Zuletzt geändert am <Datum>.
 - Besonderheiten: <etwa „eine Zahl als Beleg, keine Preise, kein Anhang in der ersten Mail">
 - Betreff: <Muster, etwa „Thema ohne Doppelpunkt, höchstens sechs Wörter">
 - Grußformel: <etwa „Viele Grüße" oder „Beste Grüße">
-- Signatur: <„Standard" oder „kurz">
+- Signatur: <Name der Variante aus PROFIL.md, etwa „Standard", „formell", „kurz">
 
 ## Beispiele
 
-Nur eigene, tatsächlich gesendete Texte. Keine Mails der Gegenseite, keine Klarnamen oder Adressen der Empfänger (Empfängertyp statt Name), Zahlen und Preise als `[Zahl]`. Höchstens fünf Beispiele.
+Nur eigene, tatsächlich gesendete Texte. Keine Mails der Gegenseite, keine Klarnamen oder Adressen der Empfänger (Empfängertyp statt Name), Beträge und Mengen als `[Zahl]`, Kalenderdaten als `[Datum]`, Uhrzeiten bleiben. Höchstens fünf Beispiele.
 
 ### <Datum> | <Empfängertyp> | <Anlass>
 
