@@ -342,11 +342,12 @@ ai-os-core/
 
 ### Use-Case-Bundles (`claude/use-cases/`)
 
-Ein Use-Case-Bundle ist ein fertiges, in der Praxis erprobtes Paket aus README und einem oder mehreren Skills für eine konkrete wiederkehrende Aufgabe, gedacht zum Installieren statt zum Selberbauen. Für dich sind drei Bundles vorbereitet, nummeriert wie in der Session:
+Ein Use-Case-Bundle ist ein fertiges, in der Praxis erprobtes Paket aus README und einem oder mehreren Skills für eine konkrete wiederkehrende Aufgabe, gedacht zum Installieren statt zum Selberbauen. Für dich sind vier Bundles vorbereitet, nummeriert wie in der Session:
 
 - `use-case-1-kontakt-segmentierung`: Outreach-Pipeline vom LinkedIn-Kontaktexport bis zum Nachrichtenentwurf, für die Neukundenansprache oder jeden anderen Anlass. Sortiert Kontakte nach Rollen und Prioritäten (Excel-Datei), legt Firmenakten an, recherchiert die Firmen öffentlich und schreibt persönliche LinkedIn-Texte in Batches (Outlook-Entwurf nur je Kontakt nach Bestätigung), versendet nie selbst. Installation per `install.sh`.
 - `use-case-2-posteingang-triage`: sichtet neue Mails je Postfach und Einheit, ordnet sie als Verläufe den eigenen Labels zu (beim ersten Lauf im Gespräch festgelegt, etwa Marken-Anfragen, Creator, Kunden-Kampagnen, Rechnungen), markiert Chancen und schlägt To-dos und Antwortentwürfe vor, dazu ein Rückblick auf Liegengebliebenes. Installation per `install.sh`.
 - `use-case-3-motion-graphic`: baut aus deiner Beschreibung ein kurzes animiertes Video für Social Media oder als Sales-Anker für Marken-Gespräche, in 16:9 und 9:16, mit Storyboard und Vorschau zum Abnicken und fertiger MP4-Datei. Ein vorläufiges Markenprofil für Pana Agency liegt im Bundle unter `marke/pana/`. Installation per `install.sh`.
+- `use-case-4-mail-entwurf`: schreibt Antworten und neue Mails in deinem eigenen Stil und legt sie als Entwurf in Outlook ab. Beim ersten Lauf lernt Claude den Stil aus deinen gesendeten Mails (Profil, Register wie Erstansprache, Kunde, Partner, intern, Signatur) und speichert ihn erst nach Freigabe, jede Korrektur wird nach Rückfrage zur Regel. Versendet nie. Installation per `install.sh`.
 
 Die Bundles kommen mit dem Download des Repos mit, werden vom Bootstrap aber **nicht automatisch installiert**. Installiert wird ein Bundle gezielt, wenn es gebraucht wird, per `bash claude/use-cases/<bundle>/install.sh`. Am einfachsten kopierst du den Kasten „Installieren" aus der README des Bundles in den Chat.
 
