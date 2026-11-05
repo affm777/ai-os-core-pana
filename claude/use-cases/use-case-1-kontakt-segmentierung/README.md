@@ -18,10 +18,11 @@ Danach eine neue Session starten, damit Claude den Skill kennt.
 Segmentier meine LinkedIn-Kontakte für die Neukundenansprache. Die Dateien hängen an, die Kundenliste ist dabei.
 ```
 
-**Zum Ausprobieren ohne eigene Daten** nimmt Claude erfundene Kontakte und auf Wunsch eine erfundene Kundenliste. Sag Claude:
+**Zum Ausprobieren ohne eigene Daten**, auch solange dein Export noch nicht da ist, nimmt Claude erfundene Kontakte und auf Wunsch eine erfundene Kundenliste. Die Testdateien liegen in diesem Ordner unter `skills/kontakt-segmentierung/beispiel/` (`Connections-beispiel.csv` im Aufbau des LinkedIn-Exports und `Partner-beispiel.csv` als Kundenliste) und werden mit dem Skill installiert, Claude findet sie von selbst. Sag Claude:
 ```
-Segmentier meine LinkedIn-Kontakte für die Neukundenansprache. Nimm zum Üben die Demo.
+Segmentier meine LinkedIn-Kontakte für die Neukundenansprache. Mein Export ist noch nicht da, nimm die Demo.
 ```
+Alle Namen und Firmen darin sind erfunden. Sobald dein echter Export da ist, startest du mit dem Satz darüber einfach neu.
 
 Diese Sätze solltest du kennen:
 
