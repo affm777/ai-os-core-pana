@@ -161,7 +161,7 @@ Entwurfston: an `TONE.md` ausgerichtet, professionell, warm, verbindlich. Harte 
 - Stattdessen einen Terminvorschlag (Telefonat, kurzes Gespräch) oder eine Rückmeldung bis zu einem konkreten Datum anbieten.
 - Keine fachliche, medizinische oder rechtliche Einschätzung, keine Inhalte aus Anhängen, die nicht ausdrücklich zum Lesen freigegeben wurden.
 
-Den fertigen Entwurfstext im Chat zeigen, damit der Nutzer ihn gegenlesen kann.
+Den fertigen Entwurfstext im Chat zeigen, damit der Nutzer ihn gegenlesen kann: eine Zeile mit Empfänger und Betreff, dann der vollständige Text, dann als letzter Satz der Antwort „Soll ich das so als Entwurf anlegen, oder was soll anders sein?“. Diese Frage nie über AskUserQuestion stellen, der Frage-Dialog verdeckt den Text davor und der Nutzer muss ihn erst aufklappen. Erst nach dem Ja anlegen, Änderungswünsche einarbeiten und erneut so zeigen.
 
 ## 10. Abschlussmeldung (Alltagssprache)
 
