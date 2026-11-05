@@ -8,6 +8,10 @@
 #      selbst angepasste segmente.md und ausschluss.md bleiben erhalten)
 #   2. prüft Python 3 und das Paket openpyxl, nennt sonst den Befehl zum
 #      Nachinstallieren
+#   3. bringt zwei Dateien des bereits installierten AIOS-Dashboards auf den
+#      Stand dieses Repos (public/aios-system.js, server.mjs), damit der Reiter
+#      der Kontakt-Segmentierung nativ und in der gewählten Gruppe erscheint;
+#      alte Fassungen nach ~/.claude/backups/, Dashboard-Daten bleiben unberührt
 #
 # Was das Skript nie tut: Programme oder Pakete installieren, Ordner im
 # Arbeitsordner anlegen (kontakte/ entsteht erst beim ersten Lauf), Shell-Config
@@ -141,6 +145,41 @@ else
     warn "Das Paket openpyxl fehlt, ohne es entsteht keine Excel-Datei. Installieren mit:"
     echo "        $PY -m pip install openpyxl"
   fi
+fi
+
+# -----------------------------------------------------------------------------
+# 3. Dashboard-Dateien nachziehen (nur wenn das Dashboard schon installiert ist)
+# -----------------------------------------------------------------------------
+echo ""
+DASH_SRC="$BUNDLE_DIR/../../../dashboard"
+DASH_DEST="$HOME/.claude/dashboard"
+DASH_NEU=0
+if [ -d "$DASH_DEST/public" ] && [ -d "$DASH_SRC" ]; then
+  for rel in public/aios-system.js server.mjs; do
+    [ -f "$DASH_SRC/$rel" ] || continue
+    if [ -f "$DASH_DEST/$rel" ] && diff -q "$DASH_SRC/$rel" "$DASH_DEST/$rel" >/dev/null 2>&1; then
+      continue
+    fi
+    DASH_NEU=1
+    if [ "$DRY" -eq 1 ]; then
+      drylog "würde Dashboard-Datei $rel auf den Stand des Repos bringen"
+    else
+      if [ -f "$DASH_DEST/$rel" ]; then
+        mkdir -p "$HOME/.claude/backups/dashboard"
+        cp "$DASH_DEST/$rel" "$HOME/.claude/backups/dashboard/$(basename "$rel").bak.$TS"
+      fi
+      mkdir -p "$(dirname "$DASH_DEST/$rel")"
+      cp "$DASH_SRC/$rel" "$DASH_DEST/$rel"
+      info "Dashboard-Datei aktualisiert: $rel"
+    fi
+  done
+  if [ "$DASH_NEU" -eq 0 ]; then
+    info "Dashboard ist bereits auf dem Stand des Repos."
+  elif [ "$DRY" -eq 0 ]; then
+    warn "Läuft das Dashboard gerade, einmal neu starten: sag Claude \"/aios-dashboard stop\" und danach \"/aios-dashboard\"."
+  fi
+else
+  info "Dashboard noch nicht installiert, nichts nachzuziehen (kommt mit dem Bootstrap)."
 fi
 
 echo ""
