@@ -222,7 +222,8 @@ function loadDashboardConfig() {
 // Skills legen hier fertige HTML-Seiten ab (etwa eine Kontakt-Segmentierung).
 // Die Seite erscheint als Reiter in der Sidebar-Gruppe "Eigene Reiter",
 // ausgeliefert wie jede statische Datei aus public/. Entfernen heisst: beide
-// Dateien loeschen. Die json-Datei traegt Titel, Untertitel, Stand und Quelle.
+// Dateien loeschen. Die json-Datei traegt Titel, Untertitel, Stand, Quelle und
+// optional die Gruppe in der Seitenleiste (group, Standard "Eigene Reiter").
 const REITER_DIR = path.join(PUBLIC_DIR, 'reiter');
 function listReiter() {
   let names;
@@ -255,6 +256,7 @@ function listReiter() {
       title: String(meta.title || slug).slice(0, 80),
       subtitle: String(meta.subtitle || '').slice(0, 200),
       source: String(meta.source || '').slice(0, 200),
+      group: String(meta.group || '').slice(0, 40),
       updated_at: new Date(mtime).toISOString(),
       order: Number.isFinite(meta.order) ? meta.order : 100,
     });

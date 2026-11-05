@@ -365,18 +365,99 @@ function renderBadge(){
 }
 /* Eigene Reiter: fertige HTML-Seiten aus public/reiter/ (Liste kommt als
    data.reiter vom Server). Je Reiter ein Nav-Knopf in der Gruppe "Eigene
-   Reiter", eine Seite mit iframe und ein Eintrag in TITLES. Wird bei jedem
-   Datenabruf abgeglichen, damit neue oder entfernte Reiter ohne Neuladen
-   auftauchen. Der iframe-Link traegt den Stand, so laedt der Browser eine
-   aktualisierte Seite neu statt aus dem Cache. */
+   Reiter", eine Seite und ein Eintrag in TITLES. Wird bei jedem Datenabruf
+   abgeglichen, damit neue oder entfernte Reiter ohne Neuladen auftauchen.
+   Die Seite wird geladen und direkt in das Dashboard eingebettet (Stylesheet
+   der Seite auf ihren Container eingegrenzt, Seitenrahmen wie html, body und
+   main fallen weg), damit sie wie ein fester Teil der Oberfläche wirkt und
+   die Dashboard-Farben, Schrift und Scrollleiste nutzt. Nur eine Seite mit
+   eigenem Script oder <meta name="aios-reiter" content="frame"> läuft in
+   einem rahmenlosen iframe, der auf die Inhaltshöhe wächst. Der Link trägt
+   den Stand, so lädt der Browser eine aktualisierte Seite neu statt aus dem
+   Cache. */
 var REITER_KEY=null;
+/* Grenzt ein Stylesheet auf einen Container ein: jeder Selektor bekommt den
+   Container vorangestellt, @media und @supports werden rekursiv behandelt,
+   @font-face und @keyframes bleiben unverändert. Regeln für html, body,
+   :root und main behalten nur ihre eigenen Variablen (--x), Hintergrund,
+   Ränder und Schrift der Seite sollen im Dashboard nicht gelten. */
+function scopeCss(css,scope){
+  css=String(css||"").replace(/\/\*[\s\S]*?\*\//g,"");
+  var out="",i=0;
+  while(i<css.length){
+    var open=css.indexOf("{",i);if(open<0)break;
+    var sel=css.slice(i,open).trim();
+    var depth=1,j=open+1;
+    while(j<css.length&&depth){if(css.charAt(j)==="{")depth++;else if(css.charAt(j)==="}")depth--;j++;}
+    var body=css.slice(open+1,j-1);
+    if(sel.charAt(0)==="@"){
+      if(/^@(media|supports|container)\b/.test(sel))out+=sel+"{"+scopeCss(body,scope)+"}";
+      else out+=sel+"{"+body+"}";
+      i=j;continue;
+    }
+    var sels=[],bare=false;
+    sel.split(",").forEach(function(s){
+      s=s.trim();if(!s)return;
+      if(/^(html|body|:root|main)$/i.test(s)||/^(html|body)\s+main$/i.test(s)){bare=true;return;}
+      s=s.replace(/^(html|body|main)\s+/i,"");
+      sels.push(scope+" "+s);
+    });
+    if(sels.length&&body.trim())out+=sels.join(",")+"{"+body+"}";
+    if(bare){
+      var vars=body.split(";").filter(function(d){return/^\s*--/.test(d);}).join(";");
+      if(vars)out+=scope+"{"+vars+"}";
+    }
+    i=j;
+  }
+  return out;
+}
+/* Füllt eine Reiter-Seite: holt die HTML-Datei, nimmt Styles aus dem Kopf
+   und den Inhalt aus body (oder main) und setzt beides in den Container.
+   Erste Überschrift der Seite entfällt, der Titel steht schon im Seitenkopf. */
+function fillReiter(sec,slug,src,title){
+  var host=sec.querySelector(".reiter-host");
+  function asFrame(){
+    host.innerHTML="";
+    var fr=document.createElement("iframe");
+    fr.title=title;fr.src=src;fr.setAttribute("scrolling","no");
+    fr.style.cssText="width:100%;border:0;background:transparent;display:block;min-height:320px";
+    fr.addEventListener("load",function(){
+      try{
+        var d=fr.contentDocument;if(!d)return;
+        d.documentElement.style.background="transparent";if(d.body)d.body.style.background="transparent";
+        var fit=function(){try{fr.style.height=Math.max(320,d.documentElement.scrollHeight)+"px";}catch(e){}};
+        fit();
+        if(window.ResizeObserver&&d.body)new ResizeObserver(fit).observe(d.body);
+        else setInterval(fit,1000);
+      }catch(e){}
+    });
+    host.appendChild(fr);
+  }
+  fetch(src,{credentials:"same-origin"}).then(function(r){if(!r.ok)throw new Error(String(r.status));return r.text();}).then(function(html){
+    var doc=new DOMParser().parseFromString(html,"text/html");
+    var meta=doc.querySelector('meta[name="aios-reiter"]');
+    if(doc.querySelector("script")||(meta&&/frame/i.test(meta.getAttribute("content")||""))){asFrame();return;}
+    var scope='.reiter-inline[data-reiter="'+slug+'"]';
+    var css="";
+    doc.querySelectorAll("style").forEach(function(st){css+=st.textContent+"\n";st.remove();});
+    var root=doc.querySelector("main")||doc.body;
+    var h1=root.querySelector("h1");if(h1&&h1===root.firstElementChild)h1.remove();
+    host.innerHTML="";
+    var style=document.createElement("style");style.textContent=scopeCss(css,scope);
+    var wrap=document.createElement("div");wrap.className="reiter-inline";wrap.setAttribute("data-reiter",slug);
+    wrap.innerHTML=root.innerHTML;
+    wrap.querySelectorAll("a[href]").forEach(function(a){if(/^https?:/i.test(a.getAttribute("href")||"")){a.target="_blank";a.rel="noopener";}});
+    host.appendChild(style);host.appendChild(wrap);
+  }).catch(function(){asFrame();});
+}
 function renderReiter(list){
   var group=$("sbReiterGroup");if(!group)return;
   list=Array.isArray(list)?list:[];
-  var key=JSON.stringify(list.map(function(r){return[r.slug,r.title,r.subtitle,r.updated_at];}));
+  var key=JSON.stringify(list.map(function(r){return[r.slug,r.title,r.subtitle,r.updated_at,r.group];}));
   if(key===REITER_KEY)return;
   REITER_KEY=key;
-  group.querySelectorAll(".sb-item").forEach(function(b){b.remove();});
+  document.querySelectorAll('.sb-item[data-page^="reiter-"]').forEach(function(b){b.remove();});
+  document.querySelectorAll(".sb-group.sb-group-reiter").forEach(function(g){g.remove();});
   document.querySelectorAll('.page[data-reiter]').forEach(function(s){s.remove();});
   Object.keys(A.pages).forEach(function(k){if(k.indexOf("reiter-")===0)delete A.pages[k];});
   Object.keys(TITLES).forEach(function(k){if(k.indexOf("reiter-")===0)delete TITLES[k];});
@@ -389,19 +470,37 @@ function renderReiter(list){
     btn.innerHTML='<span class="sb-ico"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="14" height="12" rx="2"></rect><line x1="3" y1="8" x2="17" y2="8"></line><line x1="8" y1="8" x2="8" y2="16"></line></svg></span><span class="sb-label"></span>';
     btn.querySelector(".sb-label").textContent=r.title||r.slug;
     btn.addEventListener("click",function(){location.hash="#/"+page;if(window.innerWidth<=820)document.body.classList.remove("sb-open");});
-    group.appendChild(btn);
+    reiterGroup(r.group,group).appendChild(btn);
     var sec=document.createElement("section");
     sec.className="page";sec.setAttribute("data-page",page);sec.setAttribute("data-reiter",r.slug);
     var src="reiter/"+encodeURIComponent(r.slug)+".html?v="+encodeURIComponent(r.updated_at||"");
-    sec.innerHTML='<section class="blk" style="margin-top:16px"><iframe title="" style="width:100%;height:calc(100vh - 150px);min-height:480px;border:1px solid var(--line,#e3e3e3);border-radius:12px;background:#fff"></iframe></section>';
-    var fr=sec.querySelector("iframe");fr.title=r.title||r.slug;fr.src=src;
+    sec.innerHTML='<section class="blk" style="margin-top:16px"><div class="reiter-host"></div></section>';
+    fillReiter(sec,r.slug,src,r.title||r.slug);
     if(last&&last.parentNode)last.parentNode.insertBefore(sec,last.nextSibling);else document.body.appendChild(sec);
     last=sec;
     var stand=r.updated_at?new Date(r.updated_at).toLocaleString("de-DE",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"})+" Uhr":"";
     TITLES[page]=[r.title||r.slug,(r.subtitle||"")+(stand?(r.subtitle?" · ":"")+"Stand "+stand:"")];
     A.pages[page]=function(){};
   });
-  group.style.display=list.length?"":"none";
+  group.style.display=group.querySelector(".sb-item")?"":"none";
+}
+/* Gruppe in der Seitenleiste für einen Reiter: ohne Angabe die Gruppe
+   "Eigene Reiter". Mit Angabe eine vorhandene sichtbare Gruppe mit diesem
+   Namen (etwa "Vertrieb"), sonst eine neue Gruppe mit dem Namen vor
+   "Eigene Reiter". So liegt die Seite dort, wo der Nutzer sie erwartet. */
+function reiterGroup(name,fallback){
+  name=String(name||"").trim();if(!name)return fallback;
+  var found=null;
+  document.querySelectorAll(".sb-group").forEach(function(g){
+    if(found||g===fallback)return;
+    var lab=g.querySelector(".sb-group-label");
+    if(lab&&lab.textContent.trim().toLowerCase()===name.toLowerCase()&&g.style.display!=="none")found=g;
+  });
+  if(found)return found;
+  var g=document.createElement("div");g.className="sb-group sb-group-reiter";
+  var lab=document.createElement("div");lab.className="sb-group-label";lab.textContent=name;g.appendChild(lab);
+  fallback.parentNode.insertBefore(g,fallback);
+  return g;
 }
 A.renderReiter=renderReiter;
 A.renderAll=function(data){

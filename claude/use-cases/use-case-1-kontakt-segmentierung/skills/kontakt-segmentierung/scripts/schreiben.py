@@ -20,7 +20,7 @@ entsteht keine Datei. Ohne --vorschau entstehen
   <ausgabe>/segmentierung-<datum>.xlsx  (Blätter Kontakte, Firmen, Textbausteine)
   <ausgabe>/segmentierung-<datum>.md    (Zusammenfassung mit den Top-20-Firmen)
   <ausgabe>/segmentierung-<datum>.html  (Übersicht zum Anschauen im Browser, markiert A-Kontakte und bisherige Partner)
-Mit --reiter "<Titel>" landet die HTML-Übersicht zusätzlich als eigener Reiter im AIOS-Dashboard
+Mit --reiter "<Titel>" (optional --reiter-gruppe "<Gruppe>") landet die HTML-Übersicht zusätzlich als eigener Reiter im AIOS-Dashboard
 (~/.claude/dashboard/public/reiter/<slug>.html plus <slug>.json). Ein späterer Lauf mit demselben Titel
 ersetzt den Reiter, das Dashboard zeigt den neuen Stand beim nächsten Datenabruf.
 Bestehende Dateien werden nie überschrieben, dann entsteht -2, -3 usw.
@@ -205,6 +205,7 @@ def firmen_bilden(zeilen, segmente):
             "segment": bester["segment"],
             "prioritaet": bester["prioritaet"],
             "kontakt": ("%s %s" % (bester["vorname"], bester["nachname"])).strip(),
+            "kontakt_url": bester.get("url", ""),
             "position": bester["position"],
             "ohne": schluessel == "~ohne",
             "bestand": leute[0].get("bestand", ""),
@@ -514,6 +515,14 @@ def html_schreiben(pfad, meta, zeilen, segmente, firmen, datum, xlsx_name):
     def bestand_badge(text):
         return ' <span class="bestand">%s</span>' % e(text) if text else ""
 
+    def person(name, url):
+        """Name, bei vorhandenem Profil-Link als Link (öffnet das Profil, dort geht es direkt zu Nachricht)."""
+        name = e(name)
+        url = str(url or "").strip()
+        if url.startswith("http://") or url.startswith("https://"):
+            return '<a href="%s" target="_blank" rel="noopener" title="Profil öffnen">%s</a>' % (e(url), name)
+        return name
+
     kacheln = [
         (zahl(len(zeilen)), "Kontakte im Export"),
         (zahl(len(firmen_echt)), "Firmen"),
@@ -528,21 +537,22 @@ def html_schreiben(pfad, meta, zeilen, segmente, firmen, datum, xlsx_name):
     teile.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">")
     teile.append("<title>Kontakt-Segmentierung %s</title>" % e(datum_de(datum)))
     teile.append("""<style>
-:root{--ink:#1b1b1b;--muted:#6b6b6b;--line:#e3e3e3;--bg:#f7f6f3;--card:#fff;--a:#1f7a4d;--b:#b7791f;--c:#8a8a8a;--accent:#ff4500;--blue:#1f5f8b}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif}
+:root{--ks-ink:var(--text,#1b1b1b);--ks-muted:var(--muted,#6b6b6b);--ks-line:var(--border-2,#e3e3e3);--ks-bg:var(--bg,#f4f1ea);--ks-card:var(--card-solid,#faf8f3);--ks-a:var(--ok,#1f7a4d);--ks-b:var(--warn,#b7791f);--ks-c:#8a8a8a;--ks-accent:var(--accent,#ff4500);--ks-blue:#1f5f8b;--ks-radius:var(--radius-sm,12px);--ks-sans:var(--sans,-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif)}
+*{box-sizing:border-box}body{margin:0;background:var(--ks-bg);color:var(--ks-ink);font:15px/1.5 var(--ks-sans)}
 main{max-width:1180px;margin:0 auto;padding:32px 20px 60px}h1{font-size:28px;margin:0 0 4px}h2{font-size:18px;margin:36px 0 12px}
-.sub{color:var(--muted);margin:0 0 24px}.kacheln{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
-.kachel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}.kachel b{display:block;font-size:30px;line-height:1.1}
-.kachel span{color:var(--muted);font-size:13px}table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
-th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;font-size:14px}th{background:#f0efeb;font-weight:600;font-size:12.5px;letter-spacing:.02em;text-transform:uppercase;color:var(--muted)}
-td.r,th.r{text-align:right}tr:last-child td{border-bottom:none}tr.a td{background:#f2faf5}
+.sub{color:var(--ks-muted);margin:0 0 24px}.kacheln{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.kachel{background:var(--ks-card);border:1px solid var(--ks-line);border-radius:var(--ks-radius);padding:16px 18px}.kachel b{display:block;font-size:30px;line-height:1.1}
+.kachel span{color:var(--ks-muted);font-size:13px}table{width:100%;border-collapse:collapse;background:var(--ks-card);border:1px solid var(--ks-line);border-radius:var(--ks-radius);overflow:hidden}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid var(--ks-line);vertical-align:top;font-size:14px}th{background:rgba(15,15,15,0.04);font-weight:600;font-size:12.5px;letter-spacing:.02em;text-transform:uppercase;color:var(--ks-muted)}
+td.r,th.r{text-align:right}tr:last-child td{border-bottom:none}tr.a td{background:rgba(31,122,77,0.07)}
+td a{color:inherit;text-decoration:underline;text-decoration-color:rgba(15,15,15,0.25);text-underline-offset:3px}td a:hover{color:var(--ks-accent);text-decoration-color:currentColor}
 .prio{display:inline-block;min-width:24px;text-align:center;border-radius:6px;padding:1px 6px;font-weight:700;font-size:12.5px;color:#fff}
-.pA{background:var(--a)}.pB{background:var(--b)}.pC{background:var(--c)}
-.bestand{display:inline-block;border-radius:999px;padding:1px 9px;font-size:12px;background:#ddebf7;color:var(--blue);font-weight:600;white-space:nowrap}
-.hinweis{background:#fff6ef;border:1px solid #ffd9c2;border-radius:12px;padding:12px 16px;color:#7a3b14;margin-top:28px}
-.leer{color:var(--muted);font-style:italic}.balken{display:flex;height:14px;border-radius:7px;overflow:hidden;background:#eee;margin-top:6px}
-.balken i{display:block;height:100%}.balken .ia{background:var(--a)}.balken .ib{background:var(--b)}.balken .ic{background:var(--c)}
-.legende{color:var(--muted);font-size:12.5px;margin-top:6px}
+.pA{background:var(--ks-a)}.pB{background:var(--ks-b)}.pC{background:var(--ks-c)}
+.bestand{display:inline-block;border-radius:999px;padding:1px 9px;font-size:12px;background:#ddebf7;color:var(--ks-blue);font-weight:600;white-space:nowrap}
+.hinweis{background:rgba(255,69,0,0.07);border:1px solid rgba(255,69,0,0.25);border-radius:var(--ks-radius);padding:12px 16px;color:#7a3b14;margin-top:28px}
+.leer{color:var(--ks-muted);font-style:italic}.balken{display:flex;height:14px;border-radius:7px;overflow:hidden;background:rgba(15,15,15,0.08);margin-top:6px}
+.balken i{display:block;height:100%}.balken .ia{background:var(--ks-a)}.balken .ib{background:var(--ks-b)}.balken .ic{background:var(--ks-c)}
+.legende{color:var(--ks-muted);font-size:12.5px;margin-top:6px}
 </style></head><body><main>""")
     teile.append("<h1>Kontakt-Segmentierung, %s</h1>" % e(datum_de(datum)))
     teile.append("<p class=\"sub\">Quelle %s, eingelesen am %s. Vollständige Liste in <code>%s</code>. "
@@ -575,7 +585,7 @@ td.r,th.r{text-align:right}tr:last-child td{border-bottom:none}tr.a td{backgroun
             for f in treffer:
                 teile.append("<tr%s><td><b>%s</b></td><td>%s</td><td class=\"r\">%d</td><td class=\"r\">%d</td><td>%s</td><td>%s</td></tr>"
                              % (' class="a"' if f["a"] else "", e(f["firma"]), bestand_badge(f["bestand"]), f["kontakte"], f["a"],
-                                e(f["kontakt"]), e(f["position"] or "ohne Position")))
+                                person(f["kontakt"], f.get("kontakt_url")), e(f["position"] or "ohne Position")))
             teile.append("</table>")
         if ohne:
             teile.append("<p class=\"legende\">Ohne Kontakt im Export, also über den bekannten Weg ansprechen: %s.</p>"
@@ -586,15 +596,17 @@ td.r,th.r{text-align:right}tr:last-child td{border-bottom:none}tr.a td{backgroun
     for i, f in enumerate(firmen_echt[:20], 1):
         teile.append("<tr%s><td class=\"r\">%d</td><td><b>%s</b>%s</td><td class=\"r\">%d</td><td class=\"r\">%d</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>"
                      % (' class="a"' if f["prioritaet"] == "A" else "", i, e(f["firma"]), bestand_badge(f["bestand"]) if mit_bestand else "",
-                        f["kontakte"], f["a"], e(f["segment"]), badge(f["prioritaet"]), e(f["kontakt"]), e(f["position"] or "ohne Position")))
+                        f["kontakte"], f["a"], e(f["segment"]), badge(f["prioritaet"]), person(f["kontakt"], f.get("kontakt_url")), e(f["position"] or "ohne Position")))
     teile.append("</table>")
 
     teile.append("<h2>Relevante Kontakte (Priorität A, %d)</h2>" % len(a_kontakte))
+    if any(z.get("url") for z in a_kontakte):
+        teile.append("<p class=\"sub\">Name anklicken öffnet das LinkedIn-Profil, dort „Nachricht“ wählen und den Entwurf einfügen.</p>")
     if a_kontakte:
         teile.append("<table><tr><th>Name</th><th>Position</th><th>Firma</th><th>Segment</th><th>Begründung</th></tr>")
         for z in a_kontakte:
             teile.append("<tr class=\"a\"><td><b>%s</b></td><td>%s</td><td>%s%s</td><td>%s</td><td>%s</td></tr>"
-                         % (e(("%s %s" % (z["vorname"], z["nachname"])).strip()), e(z["position"] or "ohne Position"), e(z["firma"]),
+                         % (person(("%s %s" % (z["vorname"], z["nachname"])).strip(), z.get("url")), e(z["position"] or "ohne Position"), e(z["firma"]),
                             bestand_badge(z.get("bestand")) if mit_bestand else "", e(z["segment"]), e(z["begruendung"])))
         teile.append("</table>")
     else:
@@ -615,7 +627,7 @@ def reiter_slug(titel):
     return s[:64] or "reiter"
 
 
-def reiter_schreiben(html_pfad, titel, untertitel, quelle, dash_dir=None):
+def reiter_schreiben(html_pfad, titel, untertitel, quelle, dash_dir=None, gruppe=""):
     """Kopiert die HTML-Übersicht als eigenen Reiter ins AIOS-Dashboard. Gibt (slug, zielpfad) zurück."""
     dash = os.path.expanduser(dash_dir or os.path.join("~", ".claude", "dashboard"))
     if not os.path.isdir(os.path.join(dash, "public")):
@@ -627,6 +639,7 @@ def reiter_schreiben(html_pfad, titel, untertitel, quelle, dash_dir=None):
     shutil.copyfile(html_pfad, ziel)
     with open(os.path.join(ordner, slug + ".json"), "w", encoding="utf-8") as f:
         json.dump({"title": str(titel).strip()[:80], "subtitle": untertitel, "source": quelle,
+                   "group": str(gruppe or "").strip()[:40],
                    "updated_at": dt.datetime.now().isoformat(timespec="seconds")}, f, ensure_ascii=False, indent=1)
     return slug, ziel
 
@@ -643,6 +656,8 @@ def main():
     ap.add_argument("--reiter", metavar="TITEL",
                     help="HTML-Übersicht zusätzlich als Reiter ins AIOS-Dashboard legen, etwa --reiter \"Marken-Outreach\"")
     ap.add_argument("--dashboard", help="Dashboard-Ordner (Standard ~/.claude/dashboard), nur für Tests")
+    ap.add_argument("--reiter-gruppe", metavar="GRUPPE", default="",
+                    help="Gruppe in der Seitenleiste des Dashboards, etwa Vertrieb (Standard: Eigene Reiter)")
     ap.add_argument("--nur-reiter", action="store_true",
                     help="nichts neu schreiben, nur die neueste HTML-Übersicht aus --ausgabe als Reiter ins Dashboard legen")
     args = ap.parse_args()
@@ -653,9 +668,10 @@ def main():
         if not kandidaten:
             fehler("Keine HTML-Übersicht in %s gefunden. Zuerst Phase A abschließen." % args.ausgabe)
         html = kandidaten[-1]
-        slug, ziel = reiter_schreiben(html, args.reiter, "Kontakt-Segmentierung", os.path.abspath(html), args.dashboard)
+        slug, ziel = reiter_schreiben(html, args.reiter, "Kontakt-Segmentierung", os.path.abspath(html), args.dashboard, args.reiter_gruppe)
         print(json.dumps({"reiter": {"titel": args.reiter.strip(), "slug": slug, "datei": ziel, "quelle": html,
-                                     "hinweis": "Reiter erscheint im Dashboard in der Gruppe Eigene Reiter, spätestens beim nächsten Datenabruf."}},
+                                     "gruppe": args.reiter_gruppe.strip() or "Eigene Reiter",
+                 "hinweis": "Reiter erscheint im Dashboard in der genannten Gruppe der Seitenleiste, spätestens beim nächsten Datenabruf."}},
                          ensure_ascii=False, indent=1))
         return
     args.segmente = regeldatei("segmente.md", os.path.dirname(os.path.dirname(os.path.abspath(args.arbeit))),
@@ -685,9 +701,10 @@ def main():
     if args.reiter:
         a = sum(1 for z in zeilen if z["prioritaet"] == "A")
         unter = "%s Kontakte, %s mit Priorität A, Quelle %s" % (zahl(len(zeilen)), zahl(a), meta.get("quelle", "Export"))
-        slug, ziel = reiter_schreiben(html, args.reiter, unter, os.path.abspath(html), args.dashboard)
+        slug, ziel = reiter_schreiben(html, args.reiter, unter, os.path.abspath(html), args.dashboard, args.reiter_gruppe)
         aus["reiter"] = {"titel": args.reiter.strip(), "slug": slug, "datei": ziel,
-                         "hinweis": "Reiter erscheint im Dashboard in der Gruppe Eigene Reiter, spätestens beim nächsten Datenabruf."}
+                         "gruppe": args.reiter_gruppe.strip() or "Eigene Reiter",
+                 "hinweis": "Reiter erscheint im Dashboard in der genannten Gruppe der Seitenleiste, spätestens beim nächsten Datenabruf."}
     print(json.dumps(aus, ensure_ascii=False, indent=1))
 
 
