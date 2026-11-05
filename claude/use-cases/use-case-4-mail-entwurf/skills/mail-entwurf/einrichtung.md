@@ -18,6 +18,8 @@ Beim Lesen beachten:
 - `*fett*` und Listenzeichen im Klartext sind Formatierung (fett, Aufzählung) und werden als solche verstanden.
 - Höchstens acht Mails je Empfänger-Domain, dann weiterblättern, damit eine laute Phase (Rollout, Serienmail) nicht alles dominiert. Nahezu gleiche Serienmails an mehrere Empfänger zählen als eine Mail.
 
+**Postfach nicht erreichbar:** Meldet die Suche, das Postfach sei inaktiv, gelöscht oder nicht in der Cloud (typisch bei einem Microsoft-Konto ohne Exchange-Lizenz oder wenn in Claude ein anderes Konto verbunden ist als das, mit dem gemailt wird), nicht weitersuchen und nichts speichern. In Alltagssprache sagen, dass das verbundene Konto kein aktives Postfach hat, ohne Fehlermeldung und Tool-Namen, und zwei Wege anbieten: das Postfach aktivieren lassen (Lizenz mit Exchange im Microsoft 365 Admin Center oder über die IT, sonst das richtige Konto unter Einstellungen, Connectoren verbinden) und danach neu starten, oder jetzt die Fragen aus Schritt 4 beantworten und ein Profil ohne Beispielmails anlegen, mit dem Vermerk „aus Fragen angelegt, bitte nachschärfen". Dazu sagen, dass Entwürfe in Outlook ebenfalls ein aktives Postfach brauchen. Kein Ausweichen auf ein anderes Mailkonto.
+
 **Weniger als 10 brauchbare Mails:** Schritt 2 trotzdem machen, soweit es geht, und im Profil den Hinweis „aus wenigen Mails gelernt, bitte nachschärfen" setzen. Im Chat sagen, dass das Profil noch dünn ist und mit jeder Korrektur besser wird. Unter 3 Mails: den Nutzer die Fragen aus Schritt 4 direkt beantworten lassen und ein Profil ohne Beispielmails anlegen.
 
 ## Schritt 2, Register erkennen

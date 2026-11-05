@@ -9,7 +9,7 @@ Sag Claude:
 Installier mir den Use Case mail-entwurf einmal global: hol in ~/ai-os-core mit git pull den neuesten Stand, führ bash ~/ai-os-core/claude/use-cases/use-case-4-mail-entwurf/install.sh aus, installier alles Fehlende selbst mit den Befehlen, die das Skript nennt, und sag mir in einfachen Worten, ob alles geklappt hat.
 ```
 
-Danach eine neue Session starten, damit Claude den Skill kennt. Voraussetzung ist, dass Microsoft 365 in Claude unter Einstellungen, Connectoren verbunden ist.
+Danach eine neue Session starten, damit Claude den Skill kennt. Voraussetzung ist, dass Microsoft 365 in Claude unter Einstellungen, Connectoren verbunden ist, und zwar mit dem Konto, aus dem du mailst (es braucht ein aktives Postfach, also eine Lizenz mit Exchange).
 
 ## Loslegen
 
